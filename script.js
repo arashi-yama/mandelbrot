@@ -18,14 +18,14 @@ function drow() {
     const y = (Math.floor(i / 4 / iw) / ih) * b - dy;
     const score = new Complex(x, y).isInMandelbrot(1024) * 255;
     if (score === true) {
-      arr[i + 0] = 0;
-      arr[i + 1] = 0;
-      arr[i + 2] = 0;
+      arr[i + 0] = 255;
+      arr[i + 1] = 255;
+      arr[i + 2] = 255;
       arr[i + 3] = 255;
     } else {
       arr[i + 0] = score; // R value
-      arr[i + 1] = score / 2; // G value
-      arr[i + 2] = score / 3; // B value
+      arr[i + 1] = score * 2; // G value
+      arr[i + 2] = score * 3; // B value
       arr[i + 3] = 255; // A value
     }
   }
