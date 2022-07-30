@@ -16,7 +16,7 @@ function drow() {
   for (let i = 0; i < arr.length; i += 4) {
     const x = (((i / 4) % iw) / iw) * b - dx;
     const y = (Math.floor(i / 4 / iw) / ih) * b - dy;
-    const score = new Complex(x, y).isInMandelbrot(1024) * 255;
+    const score = new Complex(x, y).isInMandelbrot(20 / b) * 255;
     if (score === true) {
       arr[i + 0] = 255;
       arr[i + 1] = 255;
@@ -35,12 +35,7 @@ function drow() {
   ctx.putImageData(imageData, 0, 0);
 }
 drow();
-/**
- * 0123
- * 4567
- * 8901
- *
- */
+
 addEventListener('keydown', (e) => {
   let d = b / 3;
   let magic = b / 30;
