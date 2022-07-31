@@ -7,7 +7,6 @@ canvas.width = innerWidth;
 const arr = new Uint8ClampedArray(4 * innerWidth * innerHeight);
 let iw = innerWidth;
 let ih = innerWidth;
-let a = 0;
 let b = 4;
 let dx = 2;
 let dy = 1.5;
@@ -16,16 +15,20 @@ function drow() {
   for (let i = 0; i < arr.length; i += 4) {
     const x = (((i / 4) % iw) / iw) * b - dx;
     const y = (Math.floor(i / 4 / iw) / ih) * b - dy;
-    const score = new Complex(x, y).isInMandelbrot(20 / b) * 255;
+    let c = 10 / b;
+    if (c < 20) c = 20;
+    if (c > 500) c = 500;
+    let score = new Complex(x, y).isInMandelbrot(c);
     if (score === true) {
-      arr[i + 0] = 255;
-      arr[i + 1] = 255;
-      arr[i + 2] = 255;
+      arr[i + 0] = 0;
+      arr[i + 1] = 0;
+      arr[i + 2] = 0;
       arr[i + 3] = 255;
     } else {
-      arr[i + 0] = score; // R value
-      arr[i + 1] = score * 2; // G value
-      arr[i + 2] = score * 3; // B value
+      let n = score * Math.PI;
+      arr[i + 0] = score * 255; // R value
+      arr[i + 1] = Math.sin(n) * 255; // G value
+      arr[i + 2] = Math.cos(n) * 255; // B value
       arr[i + 3] = 255; // A value
     }
   }

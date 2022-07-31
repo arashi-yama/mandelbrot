@@ -27,7 +27,7 @@ export default class Complex {
   isInMandelbrot(max = 255) {
     for (let i = 0, z = Complex.from(this); i < max; i++) {
       z = z.time(z).add(this);
-      if (z.r ** 2 + z.i ** 2 > 4) return i /max;
+      if (z.r ** 2 + z.i ** 2 > 4) return i / max;
     }
     return true;
   }
