@@ -11,6 +11,10 @@ let b = 4;
 let dx = 2;
 let dy = 1.5;
 
+let isClicking = false;
+let distance = null;
+const pointers = [];
+
 function drow() {
   for (let i = 0; i < arr.length; i += 4) {
     const x = (((i / 4) % iw) / iw) * b - dx;
@@ -69,10 +73,41 @@ addEventListener('keydown', (e) => {
   drow();
 });
 
-setInterval(() => {
-  let magic = b / 45;
-  b /= 1.05;
-  dx -= magic;
-  dy -= magic;
+addEventListener('pointermove', (e) => {
+  e.preventDefault();
+  if (pointers.length === 0) return;
+  if (pointers.length === 1) {
+    dx += (e.movementX * b) / 500;
+    dy += (e.movementY * b) / 500;
+  } else if (pointers.length === 2) {
+    const pa = pointers[0];
+    const pb = pointers[1];
+    const dis = Math.sqrt(
+      (pa.offsetX - pb.offsetX) ** 2 + (pa.offsetY - pb.offsetY) ** 2
+    );
+    if (distance === null) {
+      distance = dis;
+    } else if (distance > dis) {
+      //短くなってる場合
+      let magic = b / 30;
+      b *= 1.1;
+      dx += magic;
+      dy += magic;
+    } else {
+      //長くなってる場合
+      let magic = b / 30;
+      b /= 1.1;
+      dx -= magic;
+      dy -= magic;
+    }
+  }
   drow();
-}, 100);
+});
+
+addEventListener('pointerdown', (e) => {
+  pointers.push(e);
+});
+
+addEventListener('pointerup', (e) => {
+  pointers.pop();
+});
